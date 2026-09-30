@@ -84,8 +84,6 @@
             gap: 25px; align-items: center;
         }
         .timeline-text-block { text-align: left; }
-        
-        /* ИСПРАВЛЕНИЕ: гибкий контейнер для фото */
         .timeline-image-wrapper {
             position: relative;
             border-radius: 15px;
@@ -100,7 +98,6 @@
             min-height: 200px;
         }
         .timeline-image-wrapper:hover { transform: scale(1.02); }
-        
         .timeline-image {
             width: 100%;
             height: 100%;
@@ -109,7 +106,6 @@
             display: block;
             border-radius: 12px;
         }
-        
         .timeline-date {
             font-family: 'Cormorant Garamond', serif;
             font-size: 1.5em; font-weight: 700;
@@ -210,59 +206,6 @@
         .final-message::-webkit-scrollbar-track { background: rgba(255,255,255,0.1); border-radius: 3px; }
         .final-message::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.4); border-radius: 3px; }
 
-        .upload-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.75); backdrop-filter: blur(10px);
-            z-index: 9999; display: flex;
-            align-items: center; justify-content: center;
-            flex-direction: column; padding: 20px;
-        }
-        .upload-overlay.hidden { display: none; }
-        .upload-box {
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(15px);
-            padding: 35px; border-radius: 25px;
-            border: 2px dashed rgba(255,255,255,0.5);
-            text-align: center; max-width: 550px; width: 100%;
-            animation: fadeInScale 0.5s ease-out;
-        }
-        .upload-box h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.8em; margin-bottom: 15px;
-        }
-        .upload-box p {
-            font-size: 1em; margin-bottom: 20px;
-            opacity: 0.9; line-height: 1.5;
-        }
-        .upload-buttons { display: flex; flex-direction: column; gap: 12px; }
-        .upload-btn {
-            background: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%);
-            border: none; padding: 14px 30px;
-            font-size: 1em; color: #333; border-radius: 50px;
-            cursor: pointer; font-weight: 600;
-            font-family: 'Inter', sans-serif;
-            box-shadow: 0 8px 25px rgba(255,215,0,0.4);
-            transition: all 0.3s ease;
-        }
-        .upload-btn:hover {
-            transform: translateY(-2px) scale(1.03);
-            box-shadow: 0 12px 35px rgba(255,215,0,0.6);
-        }
-        .upload-status {
-            margin-top: 18px; font-size: 0.95em;
-            opacity: 0.9; min-height: 24px;
-        }
-        .upload-hint {
-            margin-top: 12px; font-size: 0.85em;
-            opacity: 0.7; font-style: italic;
-        }
-        .file-list {
-            margin-top: 15px; text-align: left;
-            max-height: 150px; overflow-y: auto;
-            font-size: 0.85em; opacity: 0.8;
-        }
-        .file-list div { padding: 3px 0; }
-
         @media (max-width: 768px) {
             .container { width: 95%; padding: 30px 15px; }
             .header { margin-bottom: 20px; }
@@ -278,9 +221,7 @@
                 max-height: 320px;
                 min-height: 180px;
             }
-            .timeline-image {
-                max-height: 320px;
-            }
+            .timeline-image { max-height: 320px; }
             .timeline-text-block { text-align: center; }
             .timeline-date { font-size: 1.25em; margin-bottom: 12px; }
             .timeline-text { font-size: 0.95em; line-height: 1.5; }
@@ -293,9 +234,6 @@
             .final-message h2 { font-size: 1.4em; margin-bottom: 15px; }
             .final-message p { font-size: 0.95em; line-height: 1.5; margin-bottom: 12px; }
             .floating-text { font-size: 1.2em; }
-            .upload-box { padding: 25px; }
-            .upload-box h2 { font-size: 1.4em; }
-            .upload-box p { font-size: 0.9em; }
         }
         @media (max-width: 380px) {
             .header h1 { font-size: 1.7em; }
@@ -317,24 +255,6 @@
     </style>
 </head>
 <body>
-    <div class="upload-overlay" id="uploadOverlay">
-        <div class="upload-box">
-            <h2>💙 Загрузи наши фото 💙</h2>
-            <p>Выбери все 12 фотографий (photo1.jpg, photo2.jpg и т.д.) из папки "сайт"</p>
-            <div class="upload-buttons">
-                <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
-                    📁 Выбрать все фото сразу
-                </button>
-                <input type="file" id="fileInput" multiple accept="image/*" style="display: none;" onchange="handleFiles(event)">
-            </div>
-            <div class="upload-status" id="uploadStatus"></div>
-            <div class="file-list" id="fileList"></div>
-            <div class="upload-hint">
-                💡 Совет: в окне выбора файлов зажми Ctrl и кликни по всем 12 фото, затем нажми "Открыть"
-            </div>
-        </div>
-    </div>
-
     <div class="hearts-container" id="heartsContainer"></div>
     <div class="floating-texts" id="floatingTexts"></div>
 
@@ -352,7 +272,7 @@
                         <div class="timeline-text">Мы с тобой, Лизанька, познакомились в Троя парке на гамаках. Первое впечатление о тебе сложилось просто невероятное — красивая и прикольная девочка, застенчивая. Это было началом нашего общения, и я даже не думал, что мы с тобою будем вместе. Просто думал: какая же классная девчонка! 💫</div>
                     </div>
                     <div class="timeline-image-wrapper">
-                        <img id="img1" src="" alt="Наше знакомство" class="timeline-image" style="display:none;">
+                        <img src="photo1.jpg" alt="Наше знакомство" class="timeline-image">
                     </div>
                 </div>
             </div>
@@ -364,7 +284,7 @@
                         <div class="timeline-text">Мы первый раз погуляли с тобой после твоего приезда из Кургана. Это было просто невероятно вайбово и классно! Я никогда не забуду, как мы с тобою впервые сфотографировались, лазили через Гремячую гриву, а потом у нас произошла первая романтика в глубине леса. Это было незабываемо, и я запомнил этот день на всю жизнь 🌲</div>
                     </div>
                     <div class="timeline-image-wrapper">
-                        <img id="img2" src="" alt="Первая прогулка" class="timeline-image" style="display:none;">
+                        <img src="photo2.jpg" alt="Первая прогулка" class="timeline-image">
                     </div>
                 </div>
             </div>
@@ -376,7 +296,7 @@
                         <div class="timeline-text">Мы сходили на Брянскую гору, и я даже не знаю, как описать этот день. Произошло очень много чего! Я впервые прикоснулся к тебе, и ты ко мне не как друзья, а как девушка и парень, но ими мы еще не являлись. После этого у нас у обоих остались просто отличнейшие воспоминания. Я до сих пор вспоминаю, как мы сидели с тобой на горах и думали о жизни и обо всем на свете ⛰️✨</div>
                     </div>
                     <div class="timeline-image-wrapper">
-                        <img id="img3" src="" alt="Брянская гора" class="timeline-image" style="display:none;">
+                        <img src="photo3.jpg" alt="Брянская гора" class="timeline-image">
                     </div>
                 </div>
             </div>
@@ -388,7 +308,7 @@
                         <div class="timeline-text">Самый главный день нашей жизни (не считая будущей свадьбы)! В этот день мы решили посидеть с моей мамой у меня дома и невольно поняли, что скрывать свои чувства друг к другу уже бессмысленно. Я никогда не забуду, как мы с тобой обнимались, впервые целовались и просто наслаждались жизнью на авиадуке. Этот день в нашей жизни — самый главный, и именно отсюда начался отсчет наших отношений на всю жизнь 💙</div>
                     </div>
                     <div class="timeline-image-wrapper">
-                        <img id="img4" src="" alt="Главный день" class="timeline-image" style="display:none;">
+                        <img src="photo4.jpg" alt="Главный день" class="timeline-image">
                     </div>
                 </div>
             </div>
@@ -400,7 +320,7 @@
                         <div class="timeline-text">Мы решили завести котёночка! Ты, такая умнейшая и находчивая девочка, нашла нашего будущего самого лучшего кота — Яшеньку. Которого мы очень сильно любим, и живёт он у нас уже практически год. Наша зеница ока и настоящий член семьи! Без тебя, у нас этого солнышка не было бы 🐱</div>
                     </div>
                     <div class="timeline-image-wrapper">
-                        <img id="img5" src="" alt="Яшенька" class="timeline-image" style="display:none;">
+                        <img src="photo5.jpg" alt="Яшенька" class="timeline-image">
                     </div>
                 </div>
             </div>
@@ -409,10 +329,10 @@
                 <div class="timeline-content">
                     <div class="timeline-text-block">
                         <div class="timeline-date">Зима</div>
-                        <div class="timeline-text">Хоть по итогу Сайын оказался конченным уродом, но этот период пропустить нельзя. В нем мы все время находились вместе, ржали, вникали в души друг друга. Это был очень уютный и классный период ️💙</div>
+                        <div class="timeline-text">Хоть по итогу Сайын оказался конченным уродом, но этот период пропустить нельзя. В нем мы все время находились вместе, ржали, вникали в души друг друга. Это был очень уютный и классный период ❄️💙</div>
                     </div>
                     <div class="timeline-image-wrapper">
-                        <img id="img6" src="" alt="Зима" class="timeline-image" style="display:none;">
+                        <img src="photo6.jpg" alt="Зима" class="timeline-image">
                     </div>
                 </div>
             </div>
@@ -424,7 +344,7 @@
                         <div class="timeline-text">День всех влюбленных и нас в том числе! Мы с тобой, как настоящая пара, сходили в ресторан и вкусно покушали. Провели время как настоящие романтики 🍷</div>
                     </div>
                     <div class="timeline-image-wrapper">
-                        <img id="img7" src="" alt="14 февраля" class="timeline-image" style="display:none;">
+                        <img src="photo7.jpg" alt="14 февраля" class="timeline-image">
                     </div>
                 </div>
             </div>
@@ -433,10 +353,10 @@
                 <div class="timeline-content">
                     <div class="timeline-text-block">
                         <div class="timeline-date">20 марта</div>
-                        <div class="timeline-text">Мы с тобою победили на школьном кубке города! Ты была просто неотразима, и твои фоточки с того дня можно пересматривать часами. Первая наша совместная победа на стоящем турнире вместе 🏆</div>
+                        <div class="timeline-text">Мы с тобою победили на школьном кубке города! Ты была просто неотразима, и твои фоточки с того дня можно пересматривать часами. Первая наша совместная победа на стоящем турнире вместе 🏆💪</div>
                     </div>
                     <div class="timeline-image-wrapper">
-                        <img id="img8" src="" alt="Победа" class="timeline-image" style="display:none;">
+                        <img src="photo8.jpg" alt="Победа" class="timeline-image">
                     </div>
                 </div>
             </div>
@@ -448,7 +368,7 @@
                         <div class="timeline-text">Я сдал ЕГЭ по математике, и мы отправились в путешествие до Крючково. Накурались, покупались, наснимали видосов. Оттуда вышло очень много мемов и теплых воспоминаний 😄</div>
                     </div>
                     <div class="timeline-image-wrapper">
-                        <img id="img9" src="" alt="Крючково" class="timeline-image" style="display:none;">
+                        <img src="photo9.jpg" alt="Крючково" class="timeline-image">
                     </div>
                 </div>
             </div>
@@ -460,7 +380,7 @@
                         <div class="timeline-text">Ты, моя умничка, получила свой заслуженный красный диплом, чему я очень рад и буду гордиться тобою всю свою жизнь 🎓</div>
                     </div>
                     <div class="timeline-image-wrapper">
-                        <img id="img10" src="" alt="Диплом" class="timeline-image" style="display:none;">
+                        <img src="photo10.jpg" alt="Диплом" class="timeline-image">
                     </div>
                 </div>
             </div>
@@ -472,7 +392,7 @@
                         <div class="timeline-text">Поездка в Богучаны — очень вайбовая и приятная! Конечно, комментарии бабушки после нее были не очень, но самое главное — это наше совместное времяпрепровождение, которое даже словами описать сложно. Насколько всё было отлично и красиво 💕</div>
                     </div>
                     <div class="timeline-image-wrapper">
-                        <img id="img11" src="" alt="Богучаны" class="timeline-image" style="display:none;">
+                        <img src="photo11.jpg" alt="Богучаны" class="timeline-image">
                     </div>
                 </div>
             </div>
@@ -484,7 +404,7 @@
                         <div class="timeline-text">Мы сходили с тобой в комп клуб на ночь! Как ты и хотела, наигрались от души. Потом ходили как во сне, но все равно такие эмоции мы давно не испытывали. Это было очень классно 💙</div>
                     </div>
                     <div class="timeline-image-wrapper">
-                        <img id="img12" src="" alt="Комп клуб" class="timeline-image" style="display:none;">
+                        <img src="photo12.jpg" alt="Комп клуб" class="timeline-image">
                     </div>
                 </div>
             </div>
@@ -502,73 +422,12 @@
                 <p>Я хочу тебе сказать, что я тебя очень сильно люблю и считаю, что встреча с тобой — это самое важное событие в моей жизни. Без тебя моя жизнь — ничто, и только ты делаешь меня счастливым каждый день.</p>
                 <p>Спасибо за то, что ты есть. Я стараюсь стать лучше для тебя, чтобы ты была со мной под опорой и всегда знала, что у тебя есть тот человек, на которого можно положиться и с которым ты можешь быть в комфорте.</p>
                 <p>Я тебя обожаю и считаю, что нет на свете человека лучше тебя. Мы прожили вместе год, дальше два, пять, десять лет и дальше больше. Мы посетим все страны мира и будем жить самую счастливую жизнь.</p>
-                <p><strong>Я тебя очень и очень люблю, моя котечка, заянька, любимая Лизанька 💕</strong></p>
+                <p><strong>Я тебя очень и очень люблю, моя котечка, заянька, любимая Лизанька </strong></p>
             </div>
         </div>
     </div>
 
     <script>
-        function handleFiles(event) {
-            const files = Array.from(event.target.files);
-            const status = document.getElementById('uploadStatus');
-            const fileList = document.getElementById('fileList');
-            const photos = {};
-            let total = 0;
-
-            fileList.innerHTML = '';
-            status.textContent = '⏳ Обрабатываю файлы...';
-
-            files.forEach(f => {
-                const div = document.createElement('div');
-                div.textContent = '📄 ' + f.name;
-                fileList.appendChild(div);
-            });
-
-            files.forEach(file => {
-                const name = file.name.toLowerCase();
-                const match = name.match(/photo\s*(\d{1,2})\.(jpg|jpeg|png|gif|webp)$/);
-                if (match) {
-                    const num = parseInt(match[1]);
-                    if (num >= 1 && num <= 12 && !photos[num]) {
-                        photos[num] = file;
-                        total++;
-                    }
-                }
-            });
-
-            status.textContent = `🔍 Найдено ${total} фото из 12. Загружаю...`;
-
-            if (total === 0) {
-                status.textContent = '❌ Фото не найдены! Убедись, что файлы называются photo1.jpg, photo2.jpg и т.д.';
-                return;
-            }
-
-            let completed = 0;
-            for (let num = 1; num <= 12; num++) {
-                if (photos[num]) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const img = document.getElementById('img' + num);
-                        if (img) {
-                            img.src = e.target.result;
-                            img.style.display = 'block';
-                        }
-                        completed++;
-                        status.textContent = `✅ Загружено ${completed} из ${total} фото...`;
-                        
-                        if (completed === total) {
-                            status.textContent = `🎉 Все ${total} фото загружены! Открываю сайт...`;
-                            setTimeout(() => {
-                                document.getElementById('uploadOverlay').classList.add('hidden');
-                            }, 1500);
-                        }
-                    };
-                    reader.onerror = function() { completed++; };
-                    reader.readAsDataURL(photos[num]);
-                }
-            }
-        }
-
         let currentSlide = 0;
         let isAnimating = false;
         const slides = document.querySelectorAll('.timeline-item');
@@ -675,7 +534,7 @@
 
         function createHearts() {
             const container = document.getElementById('heartsContainer');
-            const hearts = ['💙', '💕', '💖', '💗', '💓', '💝'];
+            const hearts = ['', '💕', '💖', '', '💓', '💝'];
             for (let i = 0; i < 25; i++) {
                 const heart = document.createElement('div');
                 heart.className = 'heart';
